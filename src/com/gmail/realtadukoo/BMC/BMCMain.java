@@ -3,17 +3,27 @@ package com.gmail.realtadukoo.BMC;
 public class BMCMain{
 	
 	public static void main(String[] args){
-		long before, after, elapsed;
+		long before, after, elapsedBible, elapsedPsalms;
 		
+		// Benchmark the entire Bible
 		before = System.currentTimeMillis();
 		
-		//GenerateBook.generateWholeBible();
+		GenerateBook.generateWholeBible();
+		
+		after = System.currentTimeMillis();
+		
+		elapsedBible = after - before;
+		
+		// Benchmark just Psalms
+		before = System.currentTimeMillis();
+		
 		GenerateBook.generateWholeBook(EnumBible.PSALMS);
 		
 		after = System.currentTimeMillis();
 		
-		elapsed = after - before;
+		elapsedPsalms = after - before;
 		
-		System.out.println("Time taken: " + elapsed + "ms");
+		System.out.println("Entire Bible Time taken: " + elapsedBible + "ms");
+		System.out.println("Psalms Time Taken: " + elapsedPsalms + "ms");
 	}
 }
