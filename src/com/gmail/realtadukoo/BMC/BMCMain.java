@@ -23,7 +23,17 @@ public class BMCMain{
 		
 		elapsedPsalms = after - before;
 		
-		System.out.println("Entire Bible Time taken: " + elapsedBible + "ms");
-		System.out.println("Psalms Time Taken: " + elapsedPsalms + "ms");
+		int bibleSec = (int) (elapsedBible/1000);
+		int bibleMin = bibleSec/60;
+		bibleSec = bibleSec%60;
+		long bibleMS = elapsedBible%1000;
+		
+		int psalmsSec = (int) (elapsedPsalms/1000);
+		int psalmsMin = psalmsSec/60;
+		psalmsSec = psalmsSec%60;
+		long psalmsMS = elapsedPsalms%1000;
+		
+		System.out.println("Entire Bible Time taken: " + bibleMin + " mins " + bibleSec + " s " + bibleMS + " ms");
+		System.out.println("Psalms Time Taken: " + psalmsMin + " mins " + psalmsSec + " s " + psalmsMS + " ms");
 	}
 }
