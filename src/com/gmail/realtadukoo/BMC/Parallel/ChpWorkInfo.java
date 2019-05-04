@@ -27,7 +27,7 @@ public class ChpWorkInfo{
 		return pages;
 	}
 	
-	public void addPage(String page){
-		pages.add(page);
+	public void setPages(ArrayList<String> pages){
+		this.pages = pages;
 	}
 }
