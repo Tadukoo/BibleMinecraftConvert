@@ -2,6 +2,7 @@ package com.gmail.realtadukoo.BMC.Parallel;
 
 import com.gmail.realtadukoo.BMC.EnumBible;
 import com.gmail.realtadukoo.BMC.EnumBibleChps;
+import com.gmail.realtadukoo.BMC.File.BookFiles;
 
 public class GenerateBookParallel{
 	
@@ -28,8 +29,21 @@ public class GenerateBookParallel{
 			}
 			
 			// Receive work
+			int chpDone = 0;
 			for(int j = 1; j <= chps; j++){
-				
+				try{
+					ChpWorkInfo info = done.dequeue();
+					if(info.getChp() == chpDone + 1){
+						for(String page: info.getPages()){
+							BookFiles.addToMinecraftBook(book, i, info.getChp(), page);
+						}
+						chpDone++;
+					}else{
+						
+					}
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
 			}
 		}
 		
