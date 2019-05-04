@@ -47,7 +47,7 @@ public class GenerateBookParallel{
 							BookFiles.addToMinecraftBook(book, i, info.getChp(), page);
 						}
 						chpDone++;
-						while(works.get(0).getChp() == chpDone + 1){
+						while(works.size() > 0 && works.get(0).getChp() == chpDone + 1){
 							info = works.remove(0);
 							for(String page: info.getPages()){
 								BookFiles.addToMinecraftBook(book, i, info.getChp(), page);
