@@ -1,10 +1,13 @@
 package com.gmail.realtadukoo.BMC;
 
+import com.gmail.realtadukoo.BMC.Parallel.GenerateBookParallel;
+
 public class BMCMain{
 	
 	public static void main(String[] args){
-		long before, after, elapsedBible, elapsedPsalms;
+		long before, after, elapsedBible, elapsedPsalms, elapsedParBible;
 		
+		/*
 		// Benchmark the entire Bible
 		before = System.currentTimeMillis();
 		
@@ -35,5 +38,22 @@ public class BMCMain{
 		
 		System.out.println("Entire Bible Time taken: " + bibleMin + " mins " + bibleSec + " s " + bibleMS + " ms");
 		System.out.println("Psalms Time Taken: " + psalmsMin + " mins " + psalmsSec + " s " + psalmsMS + " ms");
+		*/
+		
+		// Test Parallel on Entire Bible
+		before = System.currentTimeMillis();
+		
+		GenerateBookParallel.generateWholeBible(4);
+		
+		after = System.currentTimeMillis();
+		
+		elapsedParBible = after - before;
+		
+		int parBibleSec = (int) (elapsedParBible/1000);
+		int parBibleMin = parBibleSec/60;
+		parBibleSec = parBibleSec%60;
+		long parBibleMS = elapsedParBible%1000;
+		
+		System.out.println("Parallel Bible Time Taken: " + parBibleMin + " mins " + parBibleSec + " s " + parBibleMS + " ms");
 	}
 }
