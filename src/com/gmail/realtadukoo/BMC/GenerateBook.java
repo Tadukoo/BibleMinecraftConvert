@@ -8,27 +8,26 @@ import com.gmail.realtadukoo.BMC.File.BookFiles;
 import com.gmail.realtadukoo.BMC.File.VerseFiles;
 
 public class GenerateBook{
-	
+
 	public static void generateWholeBible(){
 		for(int i = 1; i <= 66; i++){
 			generateWholeBook(EnumBible.fromInt(i));
 		}
 	}
-	
+
 	public static void generateWholeBook(EnumBible book){
 		for(int i = 1; i <= EnumBibleChps.fromString(book.book()).getChps().length; i++){
 			generateWholeChapter(book, i);
 		}
-		System.out.println(book.book() + " Done");
+		//System.out.println(book.book() + " Done");
 	}
-	
-	public static ArrayList<String> generateWholeChapter(EnumBible book, int chp){
-		ArrayList<String> pages = new ArrayList<String>();
+
+	public static void generateWholeChapter(EnumBible book, int chp){
 		int bookNum = 1, pageNum = 1;
 		if(chp != 1){
 			String bookAndPageEnd = "";
 			try{
-				bookAndPageEnd = BookFiles.loadMinecraftBook(book).getProperty("Ch" + (chp-1));
+				bookAndPageEnd = BookFiles.loadMinecraftBook(book, false, -1).getProperty("Ch" + (chp-1));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -44,7 +43,7 @@ public class GenerateBook{
 			}
 		}
 		String page = "Chapter " + chp + "\n";
-		
+
 		ArrayList<String> verses = new ArrayList<String>();
 		for(int i = 1; i <= EnumBibleChps.fromString(book.book()).getNum(chp); i++){
 			Properties bookFile = VerseFiles.getBook(book);
@@ -59,16 +58,14 @@ public class GenerateBook{
 				}
 			}else{
 				if(pageNum == 50){
-					pages.add(page);
-					//BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
+					BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
 					bookNum++;
 					pageNum = 1;
 					page = "Chapter " + chp + " Cont.\n" + verses.get(i);
 				}else{
 					String[] verseSplit = verses.get(i).split(" ");
 					if(page.length() + verseSplit[0].length() + 9 > 256){
-						pages.add(page);
-						//BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
+						BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
 						page = "&l" + (i + 1) + "&r" + verses.get(i);
 						if(pageNum == 50){
 							bookNum++;
@@ -81,8 +78,8 @@ public class GenerateBook{
 						page += " &l" + (i + 1) + "&r" + verseSplit[0];
 						for(int j = 1; j < verseSplit.length; j++){
 							if(page.length() + verseSplit[j].length() + 1 > 256){
-								pages.add(page);
-								//BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
+								BookFiles.addToMinecraftBook(book, bookNum, pageNum, 
+										page);
 								page = verseSplit[j];
 								if(pageNum == 50){
 									bookNum++;
@@ -99,10 +96,8 @@ public class GenerateBook{
 				}
 			}
 		}
-		pages.add(page);
-		return pages;
-		//BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
-		//BookFiles.addToMinecraftBook(book, chp, bookNum, pageNum);
+		BookFiles.addToMinecraftBook(book, bookNum, pageNum, page);
+		BookFiles.addToMinecraftBook(book, chp, bookNum, pageNum);
 		//System.out.println(book.book() + " Chapter " + chp + " Done");
 	}
-}
+} 
